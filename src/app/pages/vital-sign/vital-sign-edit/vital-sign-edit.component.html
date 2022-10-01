@@ -1,0 +1,55 @@
+<form class="example-container" [formGroup]="form" #frmVitalSign="ngForm" (submit)="operate()">
+
+    <mat-form-field>
+        <input type="text" placeholder="Patient" matInput [matAutocomplete]="autoPatient" [formControl]="patientControl" formControlName="patient">
+
+        <mat-autocomplete #autoPatient="matAutocomplete" [displayWith]="showPatient">
+            <mat-option *ngFor="let p of patientsFiltered$ | async" [value]="p">
+                {{p.firstName}} {{p.lastName}}
+            </mat-option>
+        </mat-autocomplete>
+
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Select a date</mat-label>
+        <input matInput [matDatepicker]="picker" [max]="maxDate" [(ngModel)]="dateSelected">
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!--<div [hidden]="true">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="ID" required formControlName="idVitalSign">
+        </mat-form-field>
+    </div>-->
+
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Temperature" minlength="1" required formControlName="temperature">
+        <small *ngIf="f['temperature'].errors?.['required'] && f['temperature'].touched" class="invalid">Is required</small>
+        <small *ngIf="f['temperature'].errors?.['minlength'] && f['temperature'].touched" class="invalid">Minlength is 1</small>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Pulse" minlength="1" required formControlName="pulse">
+        <small *ngIf="f['pulse'].errors?.['required'] && f['pulse'].touched" class="invalid">Is required</small>
+        <small *ngIf="f['pulse'].errors?.['minlength'] && f['pulse'].touched" class="invalid">Minlength is 1</small>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Respiratory Rate" minlength="1" required formControlName="respiratoryRate">
+        <small *ngIf="f['pulse'].errors?.['required'] && f['pulse'].touched" class="invalid">Is required</small>
+        <small *ngIf="f['pulse'].errors?.['minlength'] && f['pulse'].touched" class="invalid">Minlength is 1</small>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="frmVitalSign.invalid">
+      <mat-icon>done</mat-icon>
+      <span>Done</span>
+  </button>
+
+    <button mat-raised-button color="accent" type="button" routerLink="/pages/vital-sign">
+      <mat-icon>cancel</mat-icon>
+      <span>Cancel</span>
+  </button>
+</form>
